@@ -7,7 +7,7 @@ _jdk_update=5
 _jdk_build=13
 pkgver=${_java_ver}.u${_jdk_update}_b${_jdk_build}
 _repo_ver=jdk${_java_ver}u${_jdk_update}-b${_jdk_build}
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url='http://openjdk.java.net/'
 license=('custom')
@@ -96,6 +96,7 @@ build() {
   bash ./autogen.sh
   cd ../..
   
+  # Do not build with gcc 4.9.0-1
   sh configure \
     --prefix="${srcdir}/jdk8/image" \
     --disable-zip-debug-info \
@@ -110,8 +111,6 @@ build() {
     --with-stdc++lib=dynamic \
     --with-update-version="${_jdk_update}" \
     --with-build-number="b${_jdk_build}" \
-    --with-extra-cflags="-fno-devirtualize" \
-    --with-extra-cxxflags="-fno-devirtualize"
     # TODO OpenJDK does not want last version of giflib (add 'giflib' as dependency once fixed)
     #--with-giflib=system \
     # TODO do we need these?
